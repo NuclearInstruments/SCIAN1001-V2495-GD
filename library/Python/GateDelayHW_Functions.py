@@ -29,7 +29,7 @@ def ListUSBDevices():
     return str_devices, dev_count 
 
 def __abstracted_reg_write(data, address, handle):
-    err = mydll.NI_DHA_WriteReg(value, address, (handle), 0)
+    err = mydll.NI_DHA_WriteReg(data, address, (handle), 0)
     return err
 
 def __abstracted_reg_read(address, handle):
@@ -45,7 +45,7 @@ def __abstracted_mem_write(data, count, address, handle):
 def __abstracted_mem_read(count, address, handle):
     data = (c_uint * (2* count))()
     err = mydll.NI_DHA_ReadArray2(byref(data), address, count, 1, (handle))
-    return err, data, read_data.value, valid_data.value
+    return err, data
 
 def __abstracted_fifo_write(data, count, address, handle):
     written_data = c_uint(0)
@@ -55,33 +55,33 @@ def __abstracted_fifo_write(data, count, address, handle):
 def __abstracted_fifo_read(count, address, address_status, blocking, timeout_ms, handle):
     data = (c_uint * (2 * count))()
     err = mydll.NI_DHA_ReadArray2(byref(data), address, count, 0, (handle))
-    return err, data, read_data, valid_data 	
+    return err, data 	
 
 def GateDelay_Program(channel, gate, delay, fine_tune, enable, handle):
-    err = mydll.programGateAndDelay(channel, gate, delay, fine_tune, enable, (handle));
+    err = mydll.programGateAndDelay(channel, gate, delay, fine_tune, enable, (handle))
     return err
 	
 def GateDelay_Bypass(channel, bypass, handle):
-    err = mydll.BypassGateAndDelay(channel, bypass, (handle));
+    err = mydll.BypassGateAndDelay(channel, bypass, (handle))
     return err	
 	
 def GateDelay_programBroadcast(gate, delay, fine_tune, enable, handle):
-    err = mydll.programGateAndDelayBroadcast(gate, delay, fine_tune, enable, (handle));
+    err = mydll.programGateAndDelayBroadcast(gate, delay, fine_tune, enable, (handle))
     return err
 
 def GateDelay_Read(channel, handle):
     data_gate = c_uint(0)
     data_delay = c_uint(0)
     data_fine_tune = c_uint(0)
-    err = mydll.NI_GateAndDelayRead(channel, byref(data_gate), byref(data_delay), byref(data_fine_tune), (handle));
+    err = mydll.NI_GateAndDelayRead(channel, byref(data_gate), byref(data_delay), byref(data_fine_tune), (handle))
     return err, data_gate, data_delay, data_fine_tune	
 
 def GateDelay_Reset_delay(handle):
-    err = mydll.Reset_delay((handle));
+    err = mydll.Reset_delay((handle))
     return err		
 	
 def GateDelay_Calibrate(handle):
-    err = mydll.Calibrate((handle));
+    err = mydll.Calibrate((handle))
     return err		
 	
 
