@@ -1,0 +1,4 @@
+HDL/**
+*.scf_bk
+output/**
+!*.rpd
